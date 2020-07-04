@@ -1,5 +1,5 @@
 type t = {
-    accept : string -> bool;
+    accept : int -> int -> bool;
     constraints  : string list;
   }
 
@@ -19,10 +19,16 @@ type t = {
   sr  = output_2
   wl  = output_3
   sl  = output_4
-*)
+ *)
+
+let check_accept p name =
+  match String.split_on_char '_' name with
+  | ["ACASXU";"run2a";x;y;"batch";"2000"] ->
+     p.accept (int_of_string x) (int_of_string y)
+  |  _ -> true
 
 let phi1 = {
-    accept = (fun _ -> true);
+    accept = (fun _ _ -> true);
     constraints = [
         "input_0 >= 55947.691";
         "output_0 <= 1500";
@@ -32,7 +38,7 @@ let phi1 = {
   }
 
 let phi2 = {
-    accept = (fun _ -> true);
+    accept = (fun x _ -> x >= 2);
     constraints = [
         "input_0 >= 55947.691";
         "output_0 <= 1500";
@@ -42,7 +48,7 @@ let phi2 = {
   }
 
 let phi3 = {
-    accept = (fun _ -> true);
+    accept = (fun x y -> not (List.mem (x,y) [(1,7);(1,8);(1,9)]));
     constraints = [
         "input_0 >= 55947.691";
         "output_0 <= 1500";
@@ -53,7 +59,7 @@ let phi3 = {
 
 
 let phi4 = {
-    accept = (fun _ -> true);
+    accept = (fun x y -> not (List.mem (x,y) [(1,7);(1,8);(1,9)]));
     constraints = [
         "input_0 >= 55947.691";
         "output_0 <= 1500";
@@ -63,7 +69,7 @@ let phi4 = {
   }
 
 let phi5 = {
-    accept = (fun _ -> true);
+    accept = (fun x y -> (x,y) = (1,1));
     constraints = [
         "input_0 >= 55947.691";
         "output_0 <= 1500";
@@ -73,7 +79,7 @@ let phi5 = {
   }
 
 let phi6 = {
-    accept = (fun _ -> true);
+    accept = (fun x y -> (x,y) = (1,1));
     constraints = [
         "input_0 >= 55947.691";
         "output_0 <= 1500";
@@ -83,7 +89,7 @@ let phi6 = {
   }
 
 let phi7 = {
-    accept = (fun _ -> true);
+    accept = (fun x y -> (x,y) = (1,9));
     constraints = [
         "input_0 >= 55947.691";
         "output_0 <= 1500";
@@ -93,7 +99,7 @@ let phi7 = {
   }
 
 let phi8 = {
-    accept = (fun _ -> true);
+    accept = (fun x y -> (x,y) = (2,9));
     constraints = [
         "input_0 >= 55947.691";
         "output_0 <= 1500";
@@ -103,7 +109,7 @@ let phi8 = {
   }
 
 let phi9 = {
-    accept = (fun _ -> true);
+    accept = (fun x y -> (x,y) = (3,3));
     constraints = [
         "input_0 >= 55947.691";
         "output_0 <= 1500";
@@ -113,7 +119,7 @@ let phi9 = {
   }
 
 let phi10 = {
-    accept = (fun _ -> true);
+    accept = (fun x y -> (x,y) = (4,5));
     constraints = [
         "input_0 >= 55947.691";
         "output_0 <= 1500";

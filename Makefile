@@ -8,7 +8,7 @@ run: build
 	dune exec src/main.exe
 
 build:
-	@mkdir -p abs
+	mkdir -p abs
 	dune build
 
 test:
@@ -22,3 +22,4 @@ uninstall:
 
 clean:
 	dune clean
+	rm -rf abs
