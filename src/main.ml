@@ -1,14 +1,20 @@
 open Properties
 
+let neuron_id nnet l_id n_id =
+    let pre =
+      if l_id = -1 then "input"
+      else if l_id = Array.length Nnet.(nnet.layers) -1 then "output"
+      else Format.asprintf "n_%i" l_id
+    in
+    Format.asprintf "%s_%i" pre n_id
+
 let build_csp (nnet:Nnet.t) prop =
   let output_neuron_constraint (n:Nnet.neuron) l_id n_id =
-    let pre =
-      if l_id = 0 then "input"
-      else if l_id = Array.length nnet.layers -1 then "output"
-      else Format.asprintf "n_%i_" (l_id-1) in
-    Format.printf "%s_%i=max(0,%f" pre n_id n.bias;
+    let n_name = neuron_id nnet l_id n_id in
+    Format.printf "%s=max(0,%f" n_name n.bias;
     Array.iteri (fun i w ->
-        Format.printf " + %s%i*%f" pre i w
+        let pred_name = neuron_id nnet (l_id-1) i in
+        Format.printf " + %s * %f" pred_name w
       ) n.weight;
     Format.printf ");\n";
   in
@@ -16,15 +22,14 @@ let build_csp (nnet:Nnet.t) prop =
     Format.printf "init{\n";
     Format.printf "// inputs\n";
     List.iteri (fun i (l,u) ->
-        Format.printf "\treal input_%i = [%f;%f];\n" i l u;
+        let name = neuron_id nnet (-1) i in
+        Format.printf "\treal %s = [%f;%f];\n" name l u;
       ) nnet.inputs;
     Array.iteri (fun i lay ->
         Format.printf "// layer %i\n" i;
-        let pre =
-          if i = Array.length nnet.layers -1 then "output" else "n"
-        in
         Array.iteri (fun j _ ->
-            Format.printf "\treal %s_%i_%i=[-100000;100000];\n" pre i j)
+            let name = neuron_id nnet i j in
+            Format.printf "\treal %s=[-100000;100000];\n" name)
           lay
       )
       nnet.layers;
