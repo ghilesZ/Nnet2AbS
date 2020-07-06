@@ -29,7 +29,7 @@ let build_csp (nnet:Nnet.t) prop =
         Format.printf "// layer %i\n" i;
         Array.iteri (fun j _ ->
             let name = neuron_id nnet i j in
-            Format.printf "\treal %s=[-100000;100000];\n" name)
+            Format.printf "\treal %s=[-100000000;100000000];\n" name)
           lay
       )
       nnet.layers;
@@ -63,7 +63,7 @@ let main =
   let dir = "nnet/" in
   let files =  Sys.readdir dir in
   Array.sort compare files;
-  Format.printf "Generation of csps, for all properties sith file:\n%!";
+  Format.printf "Generation of csps for all properties with file:\n%!";
   Array.iter (fun f ->
       Format.printf "%s\n%!" f;
       let name = Filename.remove_extension f in
