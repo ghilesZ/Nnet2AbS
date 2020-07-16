@@ -64,7 +64,7 @@ let float_list ic = list ic |> List.map fos
 let int_array ic = array ic |> Array.map ios
 let float_array ic = array ic |> Array.map fos
 
-(* checks that we have indeed reached the end of the file, and close
+(* checks that we have indeed reached the end of the file, and closes
    the channel*)
 let check_end ic =
   match input_line ic with
