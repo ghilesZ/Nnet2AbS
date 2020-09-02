@@ -40,6 +40,7 @@ let ( >=~ ) = Format.asprintf "%s >= %f"
 let ( <~ ) = Format.asprintf "%s < %f"
 let ( >~ ) = Format.asprintf "%s > %f"
 let ( =~ ) =Format.asprintf "%s = %f"
+let ( <>~ ) =Format.asprintf "%s != %f"
 
 (* named values for readability *)
 let rho   = "input_0"
@@ -169,23 +170,23 @@ let phi10 = {
         not_minimal coc
      ]
   }
-  
+
 let test1 = {
     accept = (fun x y -> (x,y) = (0,1));
     constraints = [
-        range 0. rho 60760.;
+        range 0. rho 50000.;
         range (-3.141593) theta 3.141592;
         range (-3.141592) psi 3.141592;
         range 100. vown 1200.;
         range 100. vint 1200.;
-        coc =~ 0.;
-        wl =~ 0.;
-        wr =~ 0.;
-        sl =~ 0.;
-        sr =~ 0.;
+        coc <>~ 0.;
+        wl <>~ 0.;
+        wr <>~ 0.;
+        sl <>~ 0.;
+        sr <>~ 0.;
      ]
   }
-  
+
 let test2 = {
     accept = (fun x y -> (x,y) = (0,2));
     constraints = [
@@ -194,26 +195,26 @@ let test2 = {
         range (-3.141592) psi 3.141592;
         range 100. vown 1200.;
         range 100. vint 1200.;
-        coc >=~ 3000.;
-        wl >=~ 4000.;
-        wr >=~ 5000.;
-        sl >=~ 6000.;
-        sr >=~ 7000.;
+        coc <~ 3000.;
+        wl <~ 4000.;
+        wr <~ 5000.;
+        sl <~ 6000.;
+        sr <~ 7000.;
      ]
   }
-  
+
 let test3 = {
-    accept = (fun x y -> (x,y) = (0,2));
+     accept = (fun x y -> (x,y) = (0,2));
     constraints = [
         range 0. rho 60760.;
         range (-3.141593) theta 3.141592;
         range (-3.141592) psi 3.141592;
         range 100. vown 1200.;
         range 100. vint 1200.;
-        minimal coc;
+        not_minimal coc;
      ]
   }
-  
+
 let test4 = {
     accept = (fun x y -> (x,y) = (0,3));
     constraints = [
@@ -222,13 +223,13 @@ let test4 = {
         range (-3.141592) psi 3.141592;
         range 100. vown 1200.;
         range 100. vint 1200.;
-        coc =~ 0.;
-        wl =~ 0.;
-        wr =~ 0.;
-        sl =~ 0.;
-        sr =~ 0.;
+        coc <>~ 0.;
+        wl <>~ 0.;
+        wr <>~ 0.;
+        sl <>~ 0.;
+        sr <>~ 0.;
      ]
   }
 
 let all =
-    [phi1; phi2; phi3; phi4; phi5; phi6; phi7; phi8; phi9; phi10]
+  [phi1; phi2; phi3; phi4; phi5; phi6; phi7; phi8; phi9; phi10; test1; test2; test3; test4]
